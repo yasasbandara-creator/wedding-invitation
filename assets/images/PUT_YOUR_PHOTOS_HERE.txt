@@ -1,0 +1,10 @@
+Put real photos in this folder when you have them, for example:
+
+  couple.jpg     — shown in the arch photo frame on the dashboard
+                   (then set photo.src in js/content.js)
+  og-cover.jpg   — 1200x630px, used for WhatsApp/Facebook link
+                   previews (then uncomment the og:image line
+                   in index.html)
+
+You can add more images and reference them the same way if you
+add a gallery section later.

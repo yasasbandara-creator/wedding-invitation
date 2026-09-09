@@ -1,0 +1,442 @@
+/* =====================================================================
+   WEDDING INVITATION — STYLES
+   =====================================================================
+   Contents:
+   1. Design tokens (colours, fonts, spacing)
+   2. Reset & base
+   3. Cover screen
+   4. Dashboard — layout, header, names, blessing
+   5. Countdown
+   6. Photo arch frame
+   7. Details panel
+   8. Footer
+   9. Motion & reduced-motion
+   ===================================================================== */
+
+/* ---------------------------------------------------------------------
+   1. DESIGN TOKENS
+   Change these to re-theme the whole invitation.
+   --------------------------------------------------------------------- */
+:root {
+  /* colour */
+  --emerald-950: #0a3b2a;
+  --emerald-800: #12604a;
+  --emerald-600: #1d7a5c;
+  --cream-100: #fbf5e8;
+  --cream-000: #fffef8;
+  --gold-500: #b9924c;
+  --gold-300: #d8bd85;
+  --ink-900: #1e2a22;
+  --ink-600: #4d5c53;
+
+  /* type */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Jost", "Segoe UI", sans-serif;
+  --font-script: "Fraunces", Georgia, serif;
+
+  /* layout */
+  --page-max: 480px;
+  --radius-lg: 28px;
+  --radius-md: 18px;
+
+  /* motion */
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Sinhala type swap — everything reads var(--font-display)/var(--font-body) */
+body.lang-si {
+  --font-display: "Yaldevi", "Noto Sans Sinhala", sans-serif;
+  --font-body: "Noto Sans Sinhala", "Yaldevi", sans-serif;
+}
+
+/* ---------------------------------------------------------------------
+   2. RESET & BASE
+   --------------------------------------------------------------------- */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  font-family: var(--font-body);
+  color: var(--ink-900);
+  background: var(--cream-100);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body.lock-scroll { overflow: hidden; height: 100%; }
+
+h1, h2, p { margin: 0; }
+button { font: inherit; border: none; background: none; cursor: pointer; }
+a { color: inherit; }
+svg { display: block; }
+
+/* Desktop / tablet: keep the mobile card centred, don't stretch it */
+@media (min-width: 640px) {
+  body:not(.lock-scroll) {
+    background: linear-gradient(180deg, var(--emerald-950), var(--emerald-800) 40%, var(--cream-100) 40%);
+    display: flex;
+    justify-content: center;
+  }
+  #dashboard {
+    max-width: var(--page-max);
+    margin: 0 auto;
+    box-shadow: 0 30px 80px rgba(10, 59, 42, 0.35);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   3. COVER SCREEN
+   --------------------------------------------------------------------- */
+.cover {
+  position: fixed;
+  inset: 0;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9vh 8vw 6vh;
+  text-align: center;
+  color: var(--cream-100);
+  background: radial-gradient(120% 90% at 50% 0%, var(--emerald-800), var(--emerald-950) 70%);
+  cursor: pointer;
+  user-select: none;
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  transition: transform 0.9s var(--ease-soft), opacity 0.7s ease 0.15s;
+}
+.cover.is-opening {
+  transform: translateY(-8%) scale(1.04);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cover__glow {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  width: 60vw;
+  height: 60vw;
+  max-width: 420px;
+  max-height: 420px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(216, 189, 133, 0.18), transparent 70%);
+  animation: glow-pulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.cover__petals { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.cover__petals span {
+  position: absolute;
+  bottom: -6%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold-300);
+  opacity: 0.55;
+  animation: petal-rise 9s linear infinite;
+}
+.cover__petals span:nth-child(1) { left: 12%; animation-delay: 0s; animation-duration: 8s; }
+.cover__petals span:nth-child(2) { left: 28%; animation-delay: 1.4s; animation-duration: 10s; }
+.cover__petals span:nth-child(3) { left: 48%; animation-delay: 2.8s; animation-duration: 9s; }
+.cover__petals span:nth-child(4) { left: 65%; animation-delay: 0.7s; animation-duration: 11s; }
+.cover__petals span:nth-child(5) { left: 80%; animation-delay: 3.6s; animation-duration: 8.5s; }
+.cover__petals span:nth-child(6) { left: 92%; animation-delay: 2s; animation-duration: 10.5s; }
+
+.cover__frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  z-index: 1;
+}
+.cover__motif { width: 180px; color: var(--gold-300); opacity: 0.85; }
+.cover__motif--bottom { transform: scaleY(-1); }
+
+.cover__emblem { color: var(--gold-300); animation: emblem-turn 16s linear infinite; }
+
+.cover__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.4rem, 9vw, 3.2rem);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  background: linear-gradient(100deg, var(--gold-300) 20%, #fff 45%, var(--gold-300) 70%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 5s ease-in-out infinite;
+}
+.cover__title-line2 { display: block; font-style: italic; font-weight: 400; }
+
+.cover__lamp { color: var(--gold-300); }
+.cover__lamp .flame,
+.footer__lamp .flame { animation: flame-flicker 2.4s ease-in-out infinite; transform-origin: 50% 100%; }
+
+.cover__hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--cream-100);
+  z-index: 1;
+}
+.cover__seal { color: var(--gold-300); animation: hint-pulse 2.4s ease-in-out infinite; }
+.cover__hint p {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: rgba(251, 245, 232, 0.8);
+}
+
+/* ---------------------------------------------------------------------
+   4. DASHBOARD
+   --------------------------------------------------------------------- */
+.dashboard {
+  position: relative;
+  background: var(--cream-100);
+  background-image: radial-gradient(var(--gold-300) 0.6px, transparent 0.6px);
+  background-size: 22px 22px;
+  background-attachment: local;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.dashboard::before { content: ""; } /* keeps stacking context predictable */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: linear-gradient(180deg, rgba(251, 245, 232, 0.96), rgba(251, 245, 232, 0.7));
+  backdrop-filter: blur(6px);
+}
+.monogram {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--emerald-800);
+}
+
+.lang-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 84px;
+  height: 34px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--cream-000);
+  border: 1px solid var(--gold-300);
+}
+.lang-toggle__option {
+  flex: 1;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  z-index: 1;
+  color: var(--ink-600);
+  transition: color 0.25s ease;
+}
+.lang-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  border-radius: 999px;
+  background: var(--emerald-800);
+  transition: transform 0.3s var(--ease-soft);
+}
+body.lang-si .lang-toggle__thumb { transform: translateX(100%); }
+body:not(.lang-si) .lang-toggle__option[data-lang-option="en"],
+body.lang-si .lang-toggle__option[data-lang-option="si"] { color: #fff; font-weight: 500; }
+
+.content {
+  padding: 8px 28px 12px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* One orchestrated reveal, played once when the cover opens */
+.reveal-item {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease-soft), transform 0.7s var(--ease-soft);
+}
+.dashboard.is-open .reveal-item { opacity: 1; transform: translateY(0); }
+.dashboard.is-open .hero-names { transition-delay: 0.15s; }
+.dashboard.is-open .countdown { transition-delay: 0.3s; }
+.dashboard.is-open .photo-frame { transition-delay: 0.42s; }
+.dashboard.is-open .details-panel { transition-delay: 0.54s; }
+
+.hero-names { text-align: center; padding-top: 20px; }
+.names {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 9vw, 2.6rem);
+  color: var(--emerald-800);
+  line-height: 1.2;
+}
+.amp { display: inline-block; margin: 0 0.25em; font-style: italic; color: var(--gold-500); }
+
+.divider { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 16px 0; color: var(--gold-500); }
+.divider__line { width: 44px; height: 1px; background: var(--gold-300); }
+
+.blessing {
+  max-width: 34ch;
+  margin: 0 auto;
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--ink-600);
+}
+
+/* ---------------------------------------------------------------------
+   5. COUNTDOWN
+   --------------------------------------------------------------------- */
+.countdown { text-align: center; margin: 40px 0; }
+.countdown__title { font-size: 0.92rem; color: var(--ink-600); margin-bottom: 16px; }
+.countdown__grid { display: flex; align-items: baseline; justify-content: center; gap: 10px; }
+.countdown__unit { display: flex; flex-direction: column; align-items: center; min-width: 46px; }
+.countdown__unit span {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 7vw, 2.3rem);
+  color: var(--emerald-800);
+  font-variant-numeric: tabular-nums;
+}
+.countdown__unit small { font-size: 0.68rem; color: var(--ink-600); margin-top: 2px; }
+.countdown__sep { font-family: var(--font-display); font-size: 1.6rem; color: var(--gold-300); transform: translateY(-6px); }
+#cd-secs-wrap.tick span { animation: tick-pulse 0.4s var(--ease-soft); }
+
+/* ---------------------------------------------------------------------
+   6. PHOTO ARCH FRAME
+   --------------------------------------------------------------------- */
+.photo-frame { display: flex; justify-content: center; margin: 8px 0 40px; }
+.arch-frame {
+  width: 220px;
+  height: 270px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1.5px dashed var(--gold-300);
+  border-radius: 130px 130px 12px 12px;
+  background: radial-gradient(circle at 50% 30%, rgba(185, 146, 76, 0.08), transparent 65%);
+  color: var(--gold-500);
+  overflow: hidden;
+}
+.arch-frame__caption { font-size: 0.85rem; color: var(--ink-600); }
+.arch-frame__img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------------------------------------------------------------------
+   7. DETAILS PANEL (date & time, venue)
+   --------------------------------------------------------------------- */
+.details-panel {
+  background: var(--cream-000);
+  border: 1px solid var(--gold-300);
+  border-radius: var(--radius-lg);
+  padding: 26px 24px;
+  margin-bottom: 40px;
+}
+.details-row { display: flex; gap: 16px; align-items: flex-start; }
+.details-icon {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream-100);
+  color: var(--emerald-800);
+}
+.details-label { font-family: var(--font-display); font-size: 1.05rem; color: var(--ink-900); }
+.details-sub { font-size: 0.88rem; color: var(--ink-600); margin-top: 2px; }
+.details-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--gold-300), transparent); margin: 20px 0; }
+
+.map-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--emerald-800);
+  text-decoration: none;
+  border-bottom: 1px solid var(--emerald-800);
+  padding-bottom: 1px;
+  transition: opacity 0.2s ease;
+}
+.map-link:hover { opacity: 0.7; }
+
+/* ---------------------------------------------------------------------
+   8. FOOTER
+   --------------------------------------------------------------------- */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px 48px;
+  color: var(--emerald-800);
+  text-align: center;
+}
+.footer__lamp { color: var(--gold-500); }
+.footer__text { font-family: var(--font-display); font-style: italic; font-size: 1rem; }
+
+/* ---------------------------------------------------------------------
+   9. KEYFRAMES
+   --------------------------------------------------------------------- */
+@keyframes shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+  50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+}
+@keyframes petal-rise {
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-105vh) translateX(12px); opacity: 0; }
+}
+@keyframes emblem-turn {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes flame-flicker {
+  0%, 100% { transform: scaleY(1) scaleX(1); opacity: 1; }
+  25% { transform: scaleY(1.08) scaleX(0.96); opacity: 0.92; }
+  50% { transform: scaleY(0.94) scaleX(1.04); opacity: 1; }
+  75% { transform: scaleY(1.05) scaleX(0.98); opacity: 0.95; }
+}
+@keyframes hint-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.12); opacity: 1; }
+}
+@keyframes tick-pulse {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* ---------------------------------------------------------------------
+   Reduced motion — turn decorative motion off, keep functional motion
+   --------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .cover__glow, .cover__petals span, .cover__emblem,
+  .cover__title, .cover__seal, .flame, #cd-secs-wrap.tick span {
+    animation: none !important;
+  }
+  .cover, .reveal-item, .lang-toggle__thumb {
+    transition-duration: 0.01ms !important;
+  }
+}
