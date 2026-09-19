@@ -15,7 +15,7 @@ window.WEDDING = {
 
   // ---- Couple -------------------------------------------------------
   couple: {
-    partner1: { en: "Irantha", si: "ඉරාන්ත" },
+    partner1: { en: "Irantha", si: "ඉරන්ත" },
     partner2: { en: "Kanchana", si: "කාංචනා" }
   },
 
@@ -50,12 +50,12 @@ window.WEDDING = {
   // if you'd rather not include it.
   message: {
     en: "Together with our families, we joyfully invite you to witness the beginning of our forever.",
-    si: "අපගේ පවුල් දෙකම එක්ව, අපගේ විවාහ මංගල්‍යයට සහභාගී වන ලෙස ඔබට සතුටින් ආරාධනා කරමු."
+    si: "අපගේ විවාහ මංගල්‍යයට සහභාගී වන ලෙස ඔබට සතුටින් ආරාධනා කරමු."
   },
 
   // ---- Countdown captions -------------------------------------------------
   countdown: {
-    title: { en: "Counting down to our big day", si: "අපගේ මංගල උත්සවය දක්වා ගණන් කිරීම" },
+    title: { en: "Counting down to our big day", si: "අපගේ මංගල උත්සවයට තව දින" },
     days: { en: "days", si: "දින" },
     hours: { en: "hours", si: "පැය" },
     mins: { en: "min", si: "මිනි" },
@@ -68,13 +68,13 @@ window.WEDDING = {
   //   src: "assets/images/couple.jpg"
   // It will appear inside the arch frame automatically — no other changes needed.
   photo: {
-    src: null,
+    src: "assets/images/photo_6_2026-09-07_18-16-51.jpg",
     caption: { en: "Photo coming soon", si: "ඡායාරූපය ළඟදීම" }
   },
 
   // ---- Footer --------------------------------------------------------------
   footer: {
-    text: { en: "With love, Irantha & Kanchana", si: "ආදරයෙන්, ඉරාන්ත සහ කාංචනා" }
+    text: { en: "With love, Irantha & Kanchana", si: "ආදරයෙන්, ඉරන්ත සහ කාංචනා" }
   }
 
   // ---------------------------------------------------------------------
