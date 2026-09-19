@@ -68,8 +68,8 @@ window.WEDDING = {
   //   src: "assets/images/couple.jpg"
   // It will appear inside the arch frame automatically — no other changes needed.
   photo: {
-    src: "assets/images/photo_6_2026-09-07_18-16-51.jpg",
-    caption: { en: "Photo coming soon", si: "ඡායාරූපය ළඟදීම" }
+    img src: "assets/images/photo_6_2026-09-07_18-16-51.jpg",
+    caption: { en: "", si: "" }
   },
 
   // ---- Footer --------------------------------------------------------------
