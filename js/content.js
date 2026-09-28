@@ -25,7 +25,7 @@ window.WEDDING = {
   // Change ONLY this line to move the wedding date — the weekday,
   // day, month and countdown all update themselves automatically.
   dateTime: {
-    iso: "2026-10-01T10:00:00+05:30",
+    iso: "2026-12-25T10:00:00+05:30",
     timeLabel: { en: "10.00 a.m.", si: "පෙ.ව. 10.00" }
   },
 
@@ -62,15 +62,35 @@ window.WEDDING = {
     secs: { en: "sec", si: "තත්" }
   },
 
+  rsvp: {
+    title: { en: "RSVP", si: "ආරාධනා පිළිගැනීම" },
+    description: {
+      en: "Kindly let us know if you will be able to attend our wedding.",
+      si: "ඔබ අපගේ විවාහ උත්සවයට සහභාගී වෙනවාදැයි කරුණාකර අපට දන්වන්න."
+    },
+    yesLabel: { en: "Yes, I will attend", si: "ඔව්, මම සහභාගී වෙමි" },
+    noLabel: { en: "No, I cannot attend", si: "නැහැ, මට එදිනට සහභාගී විය නොහැක" },
+    namePlaceholder: { en: "Your name", si: "ඔබේ නම" },
+    submitButton: { en: "Submit", si: "ඉදිරිපත් කරන්න" },
+    successMessage: {
+      en: "Thank you for your response! We look forward to celebrating with you.",
+      si: "ඔබගේ පිළිතුරට ස්තුතියි! ඔබේ පැමිණීම අපි බලාපොරොත්තු වෙමු."
+    },
+    errorMessage: {
+      en: "Oops! Something went wrong. Please try again later.",
+      si: "අපොයි! කුමක් හෝ මග හැරී ඇත. කරුණාකර නැවත උත්සාහ කරන්න."
+    }
+  },
+
   // ---- Photo placeholder ---------------------------------------------------
   // Leave src as null to show the elegant placeholder frame.
   // Once you have a photo: drop the file into assets/images/ and set, e.g.
   //   src: "assets/images/couple.jpg"
   // It will appear inside the arch frame automatically — no other changes needed.
   photo: {
-    img src: "assets/images/photo_6_2026-09-07_18-16-51.jpg",
-    caption: { en: "", si: "" }
-  },
+  src: "assets/couple.jpg",
+  caption: { en: "", si: "" }
+},
 
   // ---- Footer --------------------------------------------------------------
   footer: {
