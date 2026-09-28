@@ -150,6 +150,20 @@
     if (!btn) return;
     btn.addEventListener("click", () => applyLanguage(currentLang === "en" ? "si" : "en"));
   }
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const entry = getContent(el.getAttribute("data-i18n"));
+      if (entry && typeof entry === "object") {
+        const text = entry[currentLang] ?? entry.en;
+        if (text != null) {
+          // Add this check for inputs
+          if (el.tagName === "INPUT") {
+            el.placeholder = text;
+          } else {
+            el.textContent = text;
+          }
+        }
+      }
+    });
 
   /* ---------------------------------------------------------------
      Cover screen — tap or swipe up to reveal the dashboard
