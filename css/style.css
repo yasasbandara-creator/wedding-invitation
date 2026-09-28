@@ -255,6 +255,19 @@ svg { display: block; }
   background: var(--emerald-800);
   transition: transform 0.3s var(--ease-soft);
 }
+
+/* Sets the default font for all Sinhala text to Noto Sans Sinhala */
+body.lang-si {
+  font-family: 'Noto Sans Sinhala', sans-serif;
+}
+
+/* Uses the thicker, more stylized Yaldevi font for headers and titles */
+body.lang-si h1, 
+body.lang-si h2, 
+body.lang-si .cover__title,
+body.lang-si .names {
+  font-family: 'Yaldevi', sans-serif;
+}
 body.lang-si .lang-toggle__thumb { transform: translateX(100%); }
 body:not(.lang-si) .lang-toggle__option[data-lang-option="en"],
 body.lang-si .lang-toggle__option[data-lang-option="si"] { color: #fff; font-weight: 500; }
