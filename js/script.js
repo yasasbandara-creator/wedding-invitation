@@ -219,5 +219,39 @@
     setupLangToggle();
     setupCoverInteractions();
     startCountdown();
+
+    /* ---------------------------------------------------------------
+     RSVP Form to SMS Submission
+     --------------------------------------------------------------- */
+  const rsvpForm = document.getElementById("rsvpForm");
+  if (rsvpForm) {
+    rsvpForm.addEventListener("submit", (e) => {
+      e.preventDefault(); // Prevents the page from reloading
+
+      // Get the guest's name and their choice (yes/no)
+      const name = rsvpForm.querySelector('input[type="text"]').value;
+      const attendance = rsvpForm.querySelector('input[name="attendance"]:checked').value;
+      
+      // Build the message based on their language toggle (English/Sinhala)
+      let message = "";
+      if (currentLang === "si") {
+        const status = attendance === "yes" ? "සහභාගී වෙමි" : "සහභාගී විය නොහැක";
+        message = `ආයුබෝවන්! මම ${name}. මම ඔබගේ විවාහ උත්සවයට ${status}.`;
+      } else {
+        const status = attendance === "yes" ? "will be attending" : "cannot attend";
+        message = `Hello! I am ${name} and I ${status} the wedding.`;
+      }
+
+      // YOUR PHONE NUMBER HERE (include +94)
+      const phoneNumber = "+94717096093";
+
+      // Detect if it's an iPhone or Android (they format SMS links slightly differently)
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const separator = isIOS ? "&" : "?";
+      
+      // Open the SMS app
+      window.location.href = `sms:${phoneNumber}${separator}body=${encodeURIComponent(message)}`;
+    });
+  }
   });
 })();
